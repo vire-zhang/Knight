@@ -99,6 +99,8 @@ public class MaxDepth {
         for (int count = 2; count <= n; count++) {
 
         }
+
+        return new int[]{};
     }
 
     public static void main(String[] args) {
