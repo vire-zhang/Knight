@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--    组件扫描-->
+    <context:component-scan base-package="com.concert" />
+
+    <!--    启用AspectJ自动代理-->
+    <aop:aspectj-autoproxy />
+
+<!--    <context:load-time-weaver/>-->
+
+    <!--    声明Audience bean-->
+    <bean class="com.concert.aspect.Audience" />
+
+    <!--    将无注解的Audience声明为切面-->
+    <!--<aop:config>
+        <aop:aspect ref="audience">
+            <aop:pointcut id="performance"
+                          expression="execution(* com.concert.Performance.perform(..))"/>
+
+            <aop:before method="silenceCellPhones"
+                        pointcut-ref="performance"  />
+
+            <aop:before method="takeSeats"
+                        pointcut-ref="performance" />
+
+            <aop:after-returning method="applause"
+                                 pointcut-ref="performance" />
+
+            <aop:after-throwing method="demandRedund"
+                                pointcut-ref="performance" />
+        </aop:aspect>
+    </aop:config>-->
+
+    <!--    将无注解的AudienceAround声明为切面-->
+    <!--<aop:config>
+        <aop:aspect ref="audienceAround">
+            <aop:pointcut id="performance"
+                          expression="execution(* com.concert.Performance.perform(..))"/>
+
+            <aop:around method="watchPerformance"
+                        pointcut-ref="performance" />
+        </aop:aspect>
+    </aop:config>-->
+
+    <!--    通过切面引入新功能-->
+    <aop:config>
+        <aop:aspect ref="encoreableIntroducer">
+            <aop:declare-parents types-matching="concert.Performance+"
+                                 implement-interface="com.concert.Encoreable"
+                                 default-impl="com.concert.impl.DefaultEncoreable" />
+            <!--     default-impl亦可改为如下写法，需将 com.concert.impl.DefaultEncoreable 声明为名为 encoreableDelegate 的 bean     -->
+            <!--                                 delegate-ref="encoreableDelegate" />-->
+        </aop:aspect>
+    </aop:config>
+
+    <!--    创建criticismEngine bean-->
+    <bean id="criticismEngine"
+          class="com.concert.impl.CriticismEngineImpl">
+        <property name="criticismPool">
+            <list>
+                <value>Worst performance ever!</value>
+                <value>I laughed, I cried, then I realized I was at the wrong show.</value>
+                <value>A must see show!</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--    使用 AspectJ 提供分静态方法 aspectOf() ,来获得切面的实例，以便能够为切面注入bean-->
+    <!--    为属性criticismEngine注入值，标红报错，原因未知-->
+<!--    <bean class="com.concert.aspect.CriticAspect"-->
+<!--          factory-method="aspectOf">-->
+<!--        <property name="criticismEngine" ref="criticismEngine" />-->
+<!--    </bean>-->
+
+</beans>

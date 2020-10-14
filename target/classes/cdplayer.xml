@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.soundsystem"/>
+
+<!--    注入外部值方法 3：在XML中使用解析占位符 ${...}-->
+<!--    <bean id="blankDisc"-->
+<!--          class="com.soundsystem.impl.BlankDisc"-->
+<!--          c:title="${disc.title}"-->
+<!--          c:artist="${disc.artist}" />-->
+
+<!--    注入外部值方法 2、3 中，用于生成 PropertySourcesPlaceholderConfigurer bean 的XML方式-->
+<!--    <context:property-placeholder />-->
+
+<!--    XML中引入其他配置的两种方式：
+            1：<import>元素的resource属性，引入xml配置文件
+            2：<bean>元素的class属性，引入javaConfig配置文件-->
+<!--    <import resource="knights.xml" />-->
+
+</beans>
