@@ -1,8 +1,6 @@
 package com.leetcode;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class Daily {
 
@@ -65,6 +63,52 @@ public class Daily {
 
     public static void main(String[] args) {
         Daily.sortColors(new int[]{2,0,2,1,1,0});
+    }
+
+    public List<String> commonChars(String[] A) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < A[0].length(); i++) {
+            map.merge(A[0].charAt(i), 1, Integer::sum);
+        }
+        for (int i = 1; i < A.length; i++) {
+            String s = A[i];
+            Map<Character, Integer> tmp = new HashMap<>();
+            for (int j = 0; j < s.length(); j++) {
+                if (map.containsKey(s.charAt(j)) && map.get(s.charAt(j)) != 0) {
+                    tmp.merge(s.charAt(j), 1, Integer::sum);
+                    map.replace(s.charAt(j), map.get(s.charAt(j)) - 1);
+                }
+            }
+            map = tmp;
+        }
+        List<String> result = new ArrayList<>();
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            for (Integer i = 0; i < entry.getValue(); i++) {
+                result.add(entry.getKey().toString());
+            }
+        }
+        return result;
+    }
+
+    public int[] sortedSquares(int[] A) {
+        int i = 0;
+        int j = A.length - 1;
+        int[] result = new int[A.length];
+        int k = j;
+        while (i != j) {
+            int a = (int)Math.pow(A[i], 2);
+            int b = (int)Math.pow(A[j], 2);
+            if (a > b) {
+                result[k] = a;
+                i++;
+            } else {
+                result[k] = b;
+                j--;
+            }
+            k--;
+        }
+        result[k] = (int)Math.pow(A[i], 2);
+        return result;
     }
 
     public Node connect(Node root) {
